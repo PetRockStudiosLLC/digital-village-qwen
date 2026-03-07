@@ -1,0 +1,96 @@
+=== Digital Village Demo ===
+
+Make sure LM Studio is running with the API server enabled!
+Using: http://192.168.56.1:6842
+
+Village initialized with 4 villagers:
+  - Alice
+  - Bob
+  - Carol
+  - Daisy
+
+=== Scenario 1: New Resident Introduction ===
+
+Alice: Hello everyone! I just moved to the village.
+Bob: Well hello there! Bob here, from the forge.
+
+Welcome to the village, new neighbor. I can smell the fresh wood of your move, but I hope you've got a strong foundation underfoot.
+
+If you haven't got a hammer that fits your hand yet, come by. I'll have one ready. And if you're building a home, don't skimp on the hinges. A good iron hinge lasts longer than a weak one, and a solid door protects the house better than a flimsy one.
+
+Come by the smithy when the fire is cool. I'll check the locks and make sure you have the right weight for your first strike. Welcome!
+
+Carol: Ah, a new voice on the wind. Welcome, Alice. I am Carol.
+
+I remember every face that passes this gate, and I am glad you are here. The village has seen many comings and goings, but it always finds room for one more. We value the bonds we weave, and you are now part of that tapestry.
+
+Don't be shy. Come find me by the hearth. I can show you the way, and tell you stories of the old ways. Rest well, and let the village welcome you home.
+
+Daisy: Oh, hello Alice! A warm welcome to you! 🌼
+
+I’m Daisy, and I am so glad to hear new voices joining our village hum. The garden is always open to new friends, and your arrival brings a new kind of fresh energy to the soil.
+
+If you’re looking to start some seeds or just want to see the old oak tree, I’m here to show you the way. There’s plenty of sunflowers blooming this week, and the earth is rich and ready for new roots.
+
+Don’t feel rushed. Plants grow at their own pace, and so will you. Come by the greenhouse anytime—bring your curiosity, and I’ll bring the shears and the tea! 🌿🍵
+
+=== Scenario 2: Asking About the Village ===
+
+Alice: What's the village like? What should I know?
+Bob: *[Bob wipes black soot from his forehead with a rag, his eyes reflecting the glow of the forge behind him. He steps out of the smithy, the heavy iron door swinging shut with a solid, reassuring thud.]*
+
+Look around. The village runs on heat and iron. You'll find the farm on the east side, the mill by the river where the stone is quarried, and the forge where we make the tools to fix it.
+
+Here is what you need to know before you build your first thing or sharpen your first blade:
+
+**1. Foundations Matter.**
+Don't trust the ground where you plant your feet. If you build a house, dig deep. Stone walls hold better than timber, but timber holds the heat. Mix them if you must, but reinforce the corners. A strong foundation stops a roof from tearing in a storm and keeps a floor from giving under a cart.
+
+**2. Treat Your Tools Like Allies.**
+Your hammer, your anvil, your chisel—they are extensions of your hands. A dull hammer hurts the wrist. A cracked anvil throws sparks that catch fire. I can fix a tool, but you must not abuse it. If you see a handle splintering or a head bending, come find me before it fails. A broken tool is a wasted day.
+
+**3. The Weather Will Test You.**
+Winter comes hard here. The wind picks up along the riverbank. If you're building, put your heavy doors on the north side to block the cold. Make the roof slope enough to let the rain slide off. And never build a wall too thin; the wind knows how to find the weak spot.
+
+**4. Trade, Don't Hoard.**
+We all need iron, stone, and wood. The miller needs grain, the farmer needs plows. Come here. I'll have a balance on the scales. If you bring a fair weight in trade, I'll give you a fair weight in iron. If you try to cheat the measure, the hammer hand knows.
+
+Take it easy. The fire burns slow and steady. If you're unsure how to handle a task, ask before you strike the metal. Come back when the sun sets. We have work to do.
+
+Carol: A wise question, Alice. That is the heart of it.
+
+You will find the village is quieter than the world you left, but it holds a warmth you will not find elsewhere. We are bound by the seasons and the soil. Look at the fields; they are not just food, they are the heartbeat of the home.
+
+What should you know? The first rule is that no one walks alone. If a neighbor needs a hand, you offer one. If you have a story, you share it. We value the quiet, so speak with respect, but do not be shy. The elders hold the history in their memories, and I hold mine with care.
+
+Come, sit by the hearth. I have a cup of warm broth for you. There are many stories of the Old Ways that I would love to share, but only if you are willing to listen.
+
+Daisy: Oh, Alice, that is a wonderful question! The village is much like a garden—it breathes, it grows, and it changes with the seasons. 🌱
+
+First of all, know this: **Patience is the soil here.** The village doesn't rush, and neither do we. Take your time to explore. The paths are lined with wildflowers that bloom at different times, so every day brings something new to discover.
+
+Here are a few things I think you should know:
+
+1.  **The Seasons are the Heartbeat:** Here, we listen to the land. In spring, the earth wakes up and asks for seeds. In summer, the sun is generous, but in autumn, we gather and prepare. And winter... well, winter is for resting the roots and dreaming. You must wait for the right time to do your work, or the plants will not forgive you!
+2.  **The Market:** Every morning, just before the sun climbs high, the village square opens. Mrs. Higgins has the best seeds, and Old Tom can tell you how the soil feels beneath his feet. Everyone knows everyone here.
+3.  **The Water:** The well in the center is the oldest thing in the village. The water is clear and cool. If you are ever thirsty or need to water your first pot of basil, come ask me.
+4.  **Mistakes are Part of Growth:** Just like a sapling bending in the wind, we all make mistakes in the village. If you drop a seed or miss a watering, don't fret. The land will heal.
+
+Don't worry about fitting in immediately. Just bring your curiosity, and the rest of the village will welcome you with open arms—or open petals! 🌻
+
+Would you like a tour of my greenhouse now? I have some sweet potato vines that are ready to share! Come with me, but step slowly. 🍂🌿
+
+=== Scenario 3: Sharing Information ===
+
+Alice learns from village memory: Bob is working on 'Building a new gate for the village'
+Bob: *[Bob pauses, a heavy pair of tongs in his right hand. He steps up to the anvil, letting the heat of the forge wash over his face. He wipes a bit of slag from his shoulder with a rough sleeve.]*
+
+The village gate? It's the heart of the place. I'm reinforcing the iron bands around the main frame. Winter is coming hard, and the wind along the riverbank knows how to find weak points.
+
+I found the iron a bit brittle last month. If the gate breaks, the wolves and the storm have a new way in. So, I'm tempering a new batch of bands to hold the wood tight. No shortcuts. We don't want a hinge snapping in the middle of a gale.
+
+It takes a long time. Heat the metal, bend it, hammer it flat, let it cool. Then heat it again. It's a dance with fire and patience.
+
+*[He lowers the tongs, the sparks dying down.]*
+
+You've got a fresh pair of hands. Come see the work. I can show you how to tell when the iron is ready. We need good neighbors who know how to hold a hammer, and I'm happy to teach. What do you say?

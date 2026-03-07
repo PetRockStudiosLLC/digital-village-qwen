@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Environments
+.venv/
+venv/
+env/
+conda/envs/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Model files (too large for git)
+models/
+*.safetensors
+
+# Audio outputs
+output/
+*.wav
+*.mp3
+
+# Cache
+.ruff_cache/
+.pytest_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local config
+.env
+*.local
