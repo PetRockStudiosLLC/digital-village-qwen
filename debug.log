@@ -1,0 +1,7 @@
+add_character called, data=False
+self.characters before: []
+Created data: False, type: <class 'bool'>
+self.characters after: [False]
+_rebuild_character_widgets: characters = [False]
+  [0] False (type=bool)
+ERROR at 0: not a CharacterData, got False

@@ -46,7 +46,7 @@ def _load_model(voice_mode="preset", model_folder="models"):
     if voice_mode == "clone":
         model_name = "Qwen3-TTS-12Hz-0.6B-Base"
     elif voice_mode == "design":
-        model_name = "Qwen3-TTS-12Hz-0.6B-VoiceDesign"
+        model_name = "Qwen3-TTS-12Hz-0.6B-Base"
     else:
         model_name = "Qwen3-TTS-12Hz-0.6B-CustomVoice"
     
@@ -125,13 +125,14 @@ class Qwen3TTS:
         """Set the language."""
         self.language = language
 
-    def load_voice(self, name: str, audio_path: str = None):
+    def load_voice(self, name: str, audio_path: str = None, transcript: str = None):
         """
         Load a custom voice from reference audio.
         
         Args:
             name: Name to save the voice as
             audio_path: Path to reference audio file. If None, looks in voice_folder/{name}.wav
+            transcript: Transcript text for the reference audio. If None, looks for voice_folder/{name}.txt
         """
         if audio_path is None:
             audio_path = os.path.join(self.voice_folder, f"{name}.wav")
@@ -140,16 +141,25 @@ class Qwen3TTS:
             print(f"[Qwen3-TTS] Voice file not found: {audio_path}")
             return False
         
+        # Try to load transcript from .txt file if not provided
+        if transcript is None:
+            txt_path = os.path.join(self.voice_folder, f"{name}.txt")
+            if os.path.exists(txt_path):
+                with open(txt_path, "r", encoding="utf-8") as f:
+                    transcript = f.read().strip()
+                print(f"[Qwen3-TTS] Loaded transcript for {name}")
+        
         self._ensure_model()
         
         try:
             import librosa
             
             ref_audio, sr = librosa.load(audio_path, sr=24000)
-            # Create prompt with x_vector_only_mode
+            # Create prompt with transcript for better voice cloning
             prompt = self._model.create_voice_clone_prompt(
                 ref_audio=(ref_audio, sr),
-                x_vector_only_mode=True
+                ref_text=transcript,
+                x_vector_only_mode=(transcript is None)
             )
             self._speaker_embeddings[name] = prompt
             print(f"[Qwen3-TTS] Loaded voice: {name} from {audio_path}")
@@ -192,7 +202,7 @@ class Qwen3TTS:
         except Exception as e:
             print(f"[Qwen3-TTS] Play error: {e}")
 
-    def speak(self, text: str, wait: bool = True, show_progress: bool = True, voice_name: str = None, save_path: str = None):
+    def speak(self, text: str, wait: bool = True, show_progress: bool = True, voice_name: str = None, save_path: str = None, non_streaming: bool = False):
         """
         Speak text.
 
@@ -202,6 +212,7 @@ class Qwen3TTS:
             show_progress: Show progress
             voice_name: Use custom voice (if loaded) instead of preset speaker
             save_path: Optional path to save audio file
+            non_streaming: Use non-streaming mode for better quality
         """
         self._ensure_model()
         
@@ -220,6 +231,7 @@ class Qwen3TTS:
                     language=self.language,
                     voice_clone_prompt=prompt,
                     instruct=self.instruct,  # Add emotion
+                    non_streaming_mode=non_streaming,
                 )
             elif self.voice_mode == "design":
                 # Use VoiceDesign with emotion instruction
