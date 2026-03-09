@@ -9,17 +9,20 @@ import soundfile as sf
 import numpy as np
 import random
 from datetime import datetime
+import argparse
 
-AUDIO_FOLDER = "output/audio"
 PAUSE_MIN = 0.5  # Minimum pause seconds
 PAUSE_MAX = 2.0  # Maximum pause seconds
 
-def combine_audio():
+def combine_audio(audio_folder):
     # Find all wav files and sort
-    files = sorted(glob.glob(os.path.join(AUDIO_FOLDER, "*.wav")))
+    files = []
+    for ext in ["*.wav", "*.x-wav", "*.WAV"]:
+        files.extend(glob.glob(os.path.join(audio_folder, ext)))
+    files = sorted(files)
     
     if not files:
-        print(f"No audio files found in {AUDIO_FOLDER}")
+        print(f"No audio files found in {audio_folder}")
         return
     
     print(f"Found {len(files)} audio files")
@@ -49,10 +52,15 @@ def combine_audio():
     
     # Save with timestamp
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    output_file = os.path.join("output", f"conversation_{timestamp}.wav")
+    output_dir = "output/combined"
+    os.makedirs(output_dir, exist_ok=True)
+    output_file = os.path.join(output_dir, f"conversation_{timestamp}.wav")
     sf.write(output_file, combined, sample_rate)
     print(f"\nSaved: {output_file}")
     print(f"Duration: {len(combined)/sample_rate:.1f}s")
 
 if __name__ == "__main__":
-    combine_audio()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("folder", nargs="?", default="output/audio", help="Folder with audio files")
+    args = parser.parse_args()
+    combine_audio(args.folder)

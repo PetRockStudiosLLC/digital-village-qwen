@@ -5,156 +5,85 @@
 ### 1. Install LM Studio
 1. Download from https://lmstudio.ai/
 2. Install and open LM Studio
-3. Download a model (recommended: Qwen/Qwen2.5-7B-Instruct or similar)
+3. Download a model (recommended: Qwen2.5-7B-Instruct or similar)
 4. Load the model
-5. Enable API server (usually automatic)
+5. Enable API server (usually automatic, default port 6842)
 
-### 2. Install Anaconda
-1. Download from https://www.anaconda.com/download
-2. Install Anaconda
-
-### 3. Install Git (optional but recommended)
-- Download from https://git-scm.com/
+### 2. Install Python
+- Python 3.10+ required
+- Download from https://python.org/
 
 ---
 
 ## Setup Steps
 
-### Step 1: Clone or Download Project
+### Step 1: Install Dependencies
 
 ```bash
-# If using Git:
-git clone <repo-url> ChatBot
-cd ChatBot
-
-# Or download ZIP and extract
+pip install -r requirements.txt
 ```
 
-### Step 2: Create Conda Environment
-
-```bash
-# Open Anaconda Prompt
-conda create -n HeartMula python=3.10 pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
-conda activate HeartMula
-```
-
-### Step 3: Install Dependencies
-
-```bash
-pip install pygame soundfile librosa requests colorama
-pip install qwen-tts transformers accelerate
-```
-
-### Step 4: Download TTS Models
-
-Create a `models/` folder in the project root:
-
-```
-models/
-├── Qwen3-TTS-12Hz-0.6B-Base/
-└── Qwen3-TTS-12Hz-0.6B-CustomVoice/
-```
-
-**Option A: Download via Python (automatic)**
-- The script will download automatically on first run
-
-**Option B: Manual download**
-```bash
-# Install huggingface-cli
-pip install huggingface-hub
-
-# Download models
-huggingface-cli download Qwen/Qwen3-TTS-12Hz-0.6B-Base --local-dir models/Qwen3-TTS-12Hz-0.6B-Base
-huggingface-cli download Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice --local-dir models/Qwen3-TTS-12Hz-0.6B-CustomVoice
-```
-
-### Step 5: Add Voice Files (Optional)
-
-1. Record or find audio clips of voices you want (WAV format, 3-15 seconds)
-2. Put them in `voices/` folder:
-   ```
-   voices/
-   ├── Shrek.wav    # Reference for Shrek character
-   └── Donkey.wav   # Reference for Donkey character
-   ```
-
-### Step 6: Run LM Studio
+### Step 2: Run LM Studio
 
 1. Open LM Studio
 2. Load your chosen model
-3. Make sure API server is enabled (usually default port 1234 or 6842)
-4. Note the API URL (e.g., http://192.168.56.1:6842)
+3. Make sure API server is enabled
+4. Note the API URL (default: http://192.168.56.1:6842)
 
-### Step 7: Configure
+### Step 3: Configure Settings (First Run)
 
-Edit `shrek-donkey-qwen.py`:
-```python
-# Set your LM Studio API URL
-LM_STUDIO_HOST = "http://192.168.56.1:6842"
-```
+1. Run the Web UI:
+   ```bash
+   python webui.py
+   ```
+2. Go to Settings tab
+3. Verify/change LM Studio Host URL
+4. Set your preferred model name
+5. Click Save Settings
 
-### Step 8: Run!
+### Step 4: Add Voice Files (Optional but Recommended)
 
-```bash
-conda activate HeartMula
-python shrek-donkey-qwen.py
-```
+**Option A: Combine voice clips**
+1. Put multiple voice clips in `voices/UNREFINED/CharacterName/`
+2. Go to Combine Voices tab in Web UI
+3. Select the folder and enter character name
+4. Click Combine Voices
 
----
+**Option B: Single voice file**
+1. Place a `.wav` file in `voices/` folder (e.g., `voices/Finn.wav`)
+2. Create a transcript `voices/Finn.txt` with what the voice says
 
-## How to Customize
+### Step 5: Create Characters
 
-### Add New Characters
+1. Go to Characters tab
+2. Enter character name
+3. Write system prompt (character personality)
+4. Select voice file
+5. Add emotion/style notes
+6. Set default status effect
+7. Click Save Character
 
-1. Edit `shrek-donkey-qwen.py`
-2. Add to `EMOTION_FOR_CHARACTER`:
-```python
-EMOTION_FOR_CHARACTER = {
-    "Shrek": "grumpy, angry, deep voice",
-    "Donkey": "happy, excited, energetic",
-    "NEW_CHARACTER": "sad, slow, deep",  # Add here
-}
-```
+### Step 6: Generate Conversations
 
-3. Add voice file: `voices/NEW_CHARACTER.wav`
-
-4. Modify conversation logic to include new character
-
-### Change Emotions
-
-Edit the emotion strings in `EMOTION_FOR_CHARACTER`:
-```python
-EMOTION_FOR_CHARACTER = {
-    "Shrek": "happy, cheerful",  # Now sounds happy
-    "Donkey": "scared, nervous",  # Now sounds scared
-}
-```
-
-### Use Preset Voices Instead of Cloning
-
-Edit `qwen_tts.py` or script to use `voice_mode="preset"`:
-```python
-tts = get_qwen_tts(
-    voice_mode="preset",  # Use built-in voices
-    speaker="ryan",       # Choose from: ryan, eric, vivian, etc.
-)
-```
-
-### Change Output Folder
-
-Edit configuration:
-```python
-AUDIO_FOLDER = "my_audio"  # Instead of output/audio
-```
+1. Go to Multi Chat tab
+2. Select 2+ characters
+3. (Optional) Set status overrides
+4. Write a scene prompt
+5. Choose number of turns
+6. Click Generate All or Generate Text Only
 
 ---
 
-## Audio Files Explained
+## Quick Reference
 
-- Individual clips: `output/audio/001_Donkey.wav`, `002_Shrek.wav`, etc.
-- Combined: `output/conversation_2026-03-07_11-30-40.wav`
-
-Run `combine_audio.py` to combine individual clips.
+| Task | Where | How |
+|------|-------|-----|
+| Create character | Characters tab | Fill form, Save |
+| Edit character | Characters tab | Select, Load, Edit, Save |
+| Combine voices | Combine Voices tab | Select folder, enter name, Combine |
+| Generate chat | Multi Chat tab | Select chars, write scene, Generate |
+| Talk to character | Chat tab | Select char, type message, Send |
+| Change settings | Settings tab | Edit values, Save |
 
 ---
 
@@ -163,32 +92,16 @@ Run `combine_audio.py` to combine individual clips.
 ### "Connection refused" error
 - LM Studio not running → Start LM Studio and load a model
 - Wrong API URL → Check LM Studio settings for correct port
-- Firewall blocking → Allow Python through firewall
 
-### "No module named 'qwen_tts'"
+### "No module named 'qwen_tts'" or other missing modules
 ```bash
-pip install qwen-tts
+pip install -r requirements.txt
 ```
 
-### "CUDA not available"
-```bash
-# Check PyTorch has CUDA
-python -c "import torch; print(torch.cuda.is_available())"
-```
-
-If False, reinstall PyTorch with CUDA:
-```bash
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
-```
-
-### Audio not playing
-```bash
-pip install pygame
-```
-
-### Models not downloading
-- Check internet connection
-- Try manual download with huggingface-cli
+### Voice issues
+- Ensure voice file is in `voices/` folder
+- Make sure transcript (.txt) file exists
+- Use clear, single-speaker audio (10-30 seconds optimal)
 
 ---
 
@@ -196,5 +109,5 @@ pip install pygame
 
 1. Check LM Studio is running and API is enabled
 2. Check model is loaded in LM Studio
-3. Try restarting everything
+3. Try restarting the Web UI
 4. Check console for error messages

@@ -1,266 +1,207 @@
-# Digital Village
+# AI Character Chat Generator
 
-A Python package for creating multi-agent AI conversations using LM Studio. Create villages of AI characters with unique personalities that can interact, share memories, and have back-and-forth conversations.
-
-## Quick Start
-
-```bash
-pip install -r requirements.txt
-python example.py
-```
-
-## Documentation
-
-For detailed setup and configuration, see the [docs/](docs/) folder:
-
-- **[docs/SETUP.md](docs/SETUP.md)** - Step-by-step setup guide
-- **[docs/CONFIG.md](docs/CONFIG.md)** - Configuration options  
-- **[docs/VOICES.md](docs/VOICES.md)** - Adding custom voices
-- **[docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** - Common issues
-
-## Features
-
-- **Customizable Characters**: Define characters with unique personalities and roles
-- **Multiple Conversation Modes**: 
-  - Broadcast messages to all characters
-  - Direct messages between two characters
-  - Back-and-forth conversations
-- **Streaming Responses**: See responses as they're generated in real-time
-- **Shared Memory**: Characters can share information with the village
-- **Colored Output**: Character names are color-coded in the terminal
-
-## Requirements
-
-- Python 3.10+
-- LM Studio with a model loaded
-- Dependencies: `pip install -r requirements.txt`
-
-## Installation
-
-```bash
-pip install -r requirements.txt
-```
-
-Make sure LM Studio is running with:
-1. A model loaded
-2. API server enabled (default: http://192.168.56.1:6842)
+A tool for creating multi-character AI conversations with voice synthesis using LM Studio and Qwen TTS.
 
 ## Quick Start
 
-```python
-from digital_village import Village
-
-# Create village with default characters
-village = Village()
-village.setup_default_villagers(4)  # Use 1-4 characters
-
-# Simple broadcast
-village.broadcast_message("Alice", "Hello everyone!")
-```
-
-## Configuration
-
-### Changing API Host
-
-```python
-village = Village(api_host="http://192.168.56.1:6842")
-```
-
-### Changing Model
-
-```python
-village = Village(model="qwen/qwen3.5-9b")
-```
-
-## Creating Custom Characters
-
-### Method 1: Using the Helper Function
-
-```python
-from digital_village import Village, create_character
-
-# Create custom characters
-my_characters = [
-    create_character(
-        name="Marcus",
-        role="the village tavern keeper",
-        personality=[
-            "Friendly and welcoming to all travelers",
-            "Knows all the gossip in town",
-            "Generous with stories and ale",
-            "Slightly mysterious about his past"
-        ]
-    ),
-    create_character(
-        name="Elena", 
-        role="the village healer",
-        personality=[
-            "Compassionate and gentle",
-            "Knowledgeable about herbs and medicine",
-            "Patient and always willing to listen"
-        ]
-    )
-]
-
-# Setup village with custom characters
-village = Village()
-village.setup_characters(my_characters)
-```
-
-### Method 2: Manual Definition
-
-```python
-my_characters = [
-    {
-        "name": "Marcus",
-        "system_prompt": """You are Marcus, the village tavern keeper.
-You are friendly and welcoming to all travelers.
-You know all the gossip in town.
-You are generous with stories and ale.""",
-        "description": "The friendly tavern keeper"
-    },
-    {
-        "name": "Elena",
-        "system_prompt": """You are Elena, the village healer.
-You are compassionate and gentle.
-You are knowledgeable about herbs and medicine.""",
-        "description": "The village healer"
-    }
-]
-
-village.setup_characters(my_characters)
-```
-
-## Conversation Modes
-
-### 1. Broadcast Message
-
-Send a message to all characters (except sender):
-
-```python
-village.setup_default_villagers(4)
-
-# Alice broadcasts to everyone
-village.broadcast_message("Alice", "Hello everyone!")
-```
-
-With streaming:
-```python
-def on_chunk(name, chunk):
-    print(chunk, end="", flush=True)
-
-village.broadcast_message("Alice", "Hello!", stream_callback=on_chunk)
-```
-
-### 2. Direct Message
-
-Send a message from one character to another:
-
-```python
-# Bob sends a direct message to Carol
-response = village.direct_message("Bob", "Carol", "Can you help me with something?")
-```
-
-### 3. Back-and-Forth Conversation
-
-Multiple characters exchange messages:
-
-```python
-village.setup_characters([
-    {"name": "Alice", "system_prompt": "...", "description": "..."},
-    {"name": "Bob", "system_prompt": "...", "description": "..."}
-])
-
-# Alice starts, Bob responds
-responses = village.conversation(
-    participants=["Alice", "Bob"],
-    messages=[
-        "Hi Bob! How are you?",
-        "I'm doing well, thanks for asking!"
-    ]
-)
-```
-
-## Controlling Number of Characters
-
-```python
-# Use only 2 characters
-village.setup_default_villagers(2)  # Alice and Bob
-
-# Use only 3 characters  
-village.setup_default_villagers(3)  # Alice, Bob, Carol
-
-# Use all 4
-village.setup_default_villagers(4)  # Alice, Bob, Carol, Daisy
-```
-
-## Shared Memory
-
-Characters can share information with the whole village:
-
-```python
-# Bob shares something
-village.share_with_village("Bob", "weather", "It's raining today")
-
-# Alice reads it
-weather = village.read_from_village("Alice", "weather")
-print(weather)  # "It's raining today"
-```
-
-## Running the Demo
-
 ```bash
-python example.py
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the Web UI
+python webui.py
 ```
 
-The demo shows:
-1. A new resident introduction
-2. Characters asking about the village
-3. Shared memory in action
+Then open http://localhost:7860 in your browser.
 
-## Project Structure
+---
+
+## Prerequisites
+
+1. **LM Studio** - Download from https://lmstudio.ai
+   - Load a model (recommended: Qwen2.5 or similar)
+   - Enable API server (default: http://192.168.56.1:6842)
+
+2. **Python 3.10+** with dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+---
+
+## Web UI Overview
+
+The Web UI has 4 tabs:
+
+### 1. Characters Tab
+Create and manage your characters.
+
+**Creating a Character:**
+1. Enter a character name (e.g., "Finn")
+2. Write a system prompt describing the character
+3. Select a voice file (see Voice Setup below)
+4. Add emotion/style notes for TTS
+5. Set a default status effect
+6. Click "Save Character"
+
+For help writing scene prompts, see [Scene Prompt Guide](docs/SCENE_PROMPTS.md).
+
+**Creating a Character:**
+1. Enter a character name (e.g., "Finn")
+2. Write a system prompt describing the character
+3. Select a voice file (see Voice Setup below)
+4. Add emotion/style notes for TTS
+5. Set a default status effect
+6. Click "Save Character"
+
+**Editing Characters:**
+1. Select character(s) from "Select Character to Edit"
+2. Click "Load Character" to populate the form
+3. Make changes and save again
+
+**Deleting Characters:**
+1. Select character(s) from "Select Characters to Delete"
+2. Click "Delete Selected"
+
+### 2. Combine Voices Tab
+Combine multiple voice clips into a single voice file for TTS cloning.
+
+**To use:**
+1. Select a folder from `voices/UNREFINED/` or enter a custom path
+2. Enter a character name for the output file
+3. Click "Combine Voices"
+
+This creates a single `voices/CharacterName.wav` file from all audio clips in the folder.
+
+### 3. Multi Chat Tab
+Generate conversations between characters.
+
+**Options:**
+- **Characters** - Select 2+ characters
+- **Status Effects Override** - Override character status (format: `Character:Status` per line)
+- **Scene Prompt** - Set the context/scene
+- **Number of Turns** - How many exchanges
+
+**Buttons:**
+- **Generate All** - Creates text + audio in one go
+- **Generate Text Only** - Just generates conversation text (editable)
+- **Generate Audio** - Converts edited text to audio
+
+### 4. Chat Tab
+Talk to characters in real-time.
+
+1. Select character(s)
+2. Enter your message
+3. Click Send
+4. Characters respond with voice audio
+
+---
+
+## Voice Setup
+
+### Option 1: Combine Voice Clips
+1. Put voice clips in `voices/UNREFINED/CharacterName/`
+2. Go to Combine Voices tab
+3. Select the folder and enter character name
+4. Click Combine Voices
+
+### Option 2: Manual
+1. Place a `.wav` file in `voices/` folder (e.g., `voices/Finn.wav`)
+2. Create a transcript file `voices/Finn.txt` with what the voice says
+
+### Transcribing Voices
+If you have a voice file but no transcript:
+1. Select the voice file in Characters tab
+2. Click "Transcribe Voice"
+3. Transcript is auto-generated and saved
+
+---
+
+## Status Effects
+
+Each character can have a status effect that changes their dialogue tone:
+
+| Status | Effect |
+|--------|--------|
+| Normal | Default behavior |
+| Drunk | Slurred, unsteady speech |
+| Caffeinated | Fast, energetic, jumpy |
+| Tired | Slow, long pauses |
+| Angry | Aggressive, sharp |
+| Happy | Cheerful, excited |
+| Sad | Morose, downcast |
+| Confused | Hesitant, questioning |
+| Excited | Very enthusiastic |
+| Scared | Nervous, shaky |
+
+**To use:**
+- Set default in Characters tab dropdown
+- Override in Multi Chat using format: `Finn:Drunk`
+
+---
+
+## Dialogue Rules
+
+The system uses these rules for optimal TTS output:
+
+1. **No Metadata** - Only raw dialogue, no descriptions or stage directions
+2. **TTS Pronunciation** - Numbers as words, expanded abbreviations
+3. **Short-Burst** - Max 60 words per response for punchy dialogue
+4. **Punctuation for Prosody** - Use `...` for pauses, `!!!` for emphasis
+
+---
+
+## Settings
+
+Configure in Settings tab:
+- **LM Studio Host** - API endpoint (default: http://192.168.56.1:6842)
+- **Model Name** - Model to use (default: qwen/qwen3.5-9b)
+- **Output Folder** - Where audio is saved
+
+---
+
+## Folder Structure
 
 ```
 ChatBot/
-├── digital_village/
-│   ├── __init__.py      # Package exports
-│   ├── village.py       # Main Village class
-│   ├── villager.py      # DigitalVillager agent
-│   ├── memory.py        # Shared memory
-│   ├── knowledge.py     # Knowledge base
-│   ├── events.py        # Event system
-│   └── config.py        # Character configuration helpers
-├── requirements.txt
-├── example.py           # Demo script
-└── README.md
+├── webui.py              # Main Web UI
+├── transcribe_voices.py   # Voice transcription tool
+├── combine_audio.py      # Audio combiner script
+├── characters/           # Saved character JSON files
+├── voices/               # Voice reference files
+│   └── UNREFINED/       # Raw voice clips for combining
+├── output/               # Generated audio
+│   └── combined/         # Combined conversation audio
+└── data/                 # Settings storage
 ```
 
-## Default Characters
-
-| Name | Role | Description |
-|------|------|-------------|
-| Alice | Explorer | Curious and eager to learn |
-| Bob | Blacksmith | Practical and skilled craftsman |
-| Carol | Elder | Wise and remembers everything |
-| Daisy | Gardener | Patient and loves nature |
+---
 
 ## Troubleshooting
 
-### LM Studio Connection Issues
+### LM Studio Connection
+- Ensure LM Studio API server is enabled
+- Check the host address matches in Settings
 
-Make sure:
-1. LM Studio is running
-2. A model is loaded
-3. API server is enabled in LM Studio settings
+### Voice Issues
+- Ensure voice file exists in `voices/` folder
+- Make sure transcript (.txt) file exists
+- Use clear, single-speaker audio (10-30 seconds optimal)
 
-### Responses Not Appearing
+### TTS Errors
+- Check that voices are loaded in Multi Chat
+- Verify character has a voice file assigned
 
-Check that:
-1. Model is fully loaded in LM Studio
-2. API host address is correct in your code
+---
 
-### Color Issues on Windows
+## Command Line Tools
 
-The package uses colorama for cross-platform color support. If colors don't appear:
-- Try running in a modern terminal (Windows Terminal recommended)
-- Or disable colors by modifying the Colors class in example.py
+### Combine Audio Files
+```bash
+python combine_audio.py voices/UNREFINED/Bender
+```
+
+### Transcribe Voices
+```bash
+python transcribe_voices.py voices/
+```

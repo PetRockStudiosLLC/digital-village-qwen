@@ -2,43 +2,48 @@
 
 ## Start Here
 
-- [README.md](README.md) - Quick overview and quick start
-- [SETUP.md](SETUP.md) - Step-by-step setup for beginners
-
-## Configuration
-
-- [CONFIG.md](CONFIG.md) - All configuration options explained
-- [VOICES.md](VOICES.md) - How to add and customize voices
-
-## Reference
-
-- [API.md](API.md) - Complete API documentation
-- [TROUBLESHOOTING.md](TROUBLESHOOTING.md) - Common problems and solutions
+- **[README.md](../README.md)** - Main guide - start here!
+- [SETUP.md](SETUP.md) - Step-by-step setup
+- [VOICES.md](VOICES.md) - Adding and managing voices
+- [SCENE_PROMPTS.md](SCENE_PROMPTS.md) - Writing great scene prompts
 
 ## Quick Links
 
 | Need Help With | Read This |
 |----------------|-----------|
 | First time setup | SETUP.md |
-| Adding new voices | VOICES.md |
-| Changing characters | CONFIG.md |
-| Something broken | TROUBLESHOOTING.md |
-| Developer info | API.md |
+| Adding voices | VOICES.md |
+| Writing prompts | SCENE_PROMPTS.md |
+| Troubleshooting | TROUBLESHOOTING.md |
 
-## File Structure
+## In This Folder
 
 ```
 docs/
-├── README.md          # This file - start here!
+├── README.md          # This file
 ├── SETUP.md          # Step-by-step setup
-├── CONFIG.md         # Configuration guide
-├── VOICES.md         # Voice customization
-├── API.md            # API reference
+├── VOICES.md         # Voice setup guide
+├── CONFIG.md         # Configuration (legacy)
+├── API.md            # API reference (legacy)
 └── TROUBLESHOOTING.md # Problem solving
+```
+
+## Quick Start
+
+```bash
+# 1. Install dependencies
+pip install -r requirements.txt
+
+# 2. Run LM Studio with a model loaded
+
+# 3. Start Web UI
+python webui.py
+
+# 4. Open http://localhost:7860
 ```
 
 ## Questions?
 
 1. New user? → Read SETUP.md
-2. Want different voices? → Read VOICES.md  
+2. Want different voices? → Read VOICES.md
 3. Something not working? → Read TROUBLESHOOTING.md

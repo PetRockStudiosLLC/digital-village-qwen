@@ -125,6 +125,31 @@ class Qwen3TTS:
         """Set the language."""
         self.language = language
 
+    def _smooth_audio(self, audio: np.ndarray, sample_rate: int) -> np.ndarray:
+        """
+        Apply smoothing to audio for more natural output.
+        Reduces robotic harshness between words.
+        """
+        # Apply light fade in/out to remove clicks
+        fade_samples = int(sample_rate * 0.01)  # 10ms fade
+        if len(audio) > fade_samples * 2:
+            audio[:fade_samples] *= np.linspace(0, 1, fade_samples)
+            audio[-fade_samples:] *= np.linspace(1, 0, fade_samples)
+        
+        # Light smoothing to reduce harsh transitions
+        window_size = int(sample_rate * 0.005)  # 5ms window
+        if window_size > 1 and len(audio) > window_size:
+            smoothed = np.convolve(audio, np.ones(window_size)/window_size, mode='same')
+            # Blend original with smoothed (80% original, 20% smoothed)
+            audio = audio * 0.85 + smoothed * 0.15
+        
+        # Normalize to prevent clipping
+        max_val = np.abs(audio).max()
+        if max_val > 0.95:
+            audio = audio * (0.95 / max_val)
+        
+        return audio
+
     def load_voice(self, name: str, audio_path: str = None, transcript: str = None):
         """
         Load a custom voice from reference audio.
@@ -248,6 +273,9 @@ class Qwen3TTS:
                     speaker=self.speaker,
                     instruct=self.instruct,  # Can also use with CustomVoice
                 )
+            
+            # Apply audio smoothing for more natural output
+            wavs[0] = self._smooth_audio(wavs[0], sr)
             
             # Save to file if path provided
             if save_path:
